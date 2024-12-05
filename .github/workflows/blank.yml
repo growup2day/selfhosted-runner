@@ -1,27 +1,38 @@
-name: Playwright Tests
+name: Windows Self-Hosted Runner Test with Artifact
+
 on:
   push:
-    branches: [ main ] 
-  pull_request:
-    branches: [ main ] 
+    branches:
+      - main
+
 jobs:
-  test:
-    timeout-minutes: 60
-    runs-on: [self-hosted, windows]
+  test-runner:
+    runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      # Step 1: Create a Report File
+      - name: Create Report
+        run: |
+          echo Operating System: %OS% > report.txt
+          echo Computer Name: %COMPUTERNAME% >> report.txt
+          echo Running on a Windows self-hosted runner >> report.txt
+
+      # Step 2: Test PowerShell Command
+      - name: Test PowerShell Command
+        shell: pwsh
+        run: |
+          "Hello from PowerShell!" >> report.txt
+          Get-Date >> report.txt
+
+      # Step 3: Verify Environment Variables
+      - name: Verify Environment
+        run: |
+          echo Current Directory: %cd% >> report.txt
+          echo Logged-in User: %username% >> report.txt
+          echo PATH Environment Variable: %PATH% >> report.txt
+
+      # Step 4: Upload Report as Artifact
+      - name: Upload Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-runner-test-report
+          path: report.txt
