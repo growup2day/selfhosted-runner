@@ -9,19 +9,19 @@ jobs:
   test-runner:
     runs-on: self-hosted
     steps:
-      # Step 1: Create a Report File
+      # Step 1: Create Report File
       - name: Create Report
         run: |
           echo Operating System: %OS% > report.txt
           echo Computer Name: %COMPUTERNAME% >> report.txt
           echo Running on a Windows self-hosted runner >> report.txt
 
-      # Step 2: Test PowerShell Command
+      # Step 2: Test PowerShell Command (Using Windows PowerShell)
       - name: Test PowerShell Command
-        shell: pwsh
+        shell: powershell
         run: |
-          "Hello from PowerShell!" >> report.txt
-          Get-Date >> report.txt
+          "Hello from PowerShell!" | Add-Content -Path report.txt
+          Get-Date | Add-Content -Path report.txt
 
       # Step 3: Verify Environment Variables
       - name: Verify Environment
