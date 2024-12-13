@@ -34,9 +34,8 @@ jobs:
         run: npm run build         
 
       - name: Install Playwright browsers with dependencies
-        run: |
-          # Elevate the command to run as Administrator
-          Start-Process powershell -Verb runAs -ArgumentList "npx playwright install --with-deps"
+        run: npx playwright install --with-deps
+
 
       - name: Run Playwright Tests
         run: npx playwright test --reporter=html
