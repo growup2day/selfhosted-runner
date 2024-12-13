@@ -1,0 +1,48 @@
+name: Playwright and Java Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: [self-hosted, windows]  # Use your Windows self-hosted runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 1: Verify Java version (OpenJDK 22.0.2)
+      - name: Verify Java version
+        run: java -version  # Verify that Java 22.0.2 is installed
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      # Step 3: Install dependencies and run Playwright tests
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright Tests
+        run: npx playwright test --reporter=html
+
+      # Step 4: List and upload the test report
+      - name: List report directory
+        run: dir /s /b playwright-report
+
+      - name: Upload Playwright HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
