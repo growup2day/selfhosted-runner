@@ -20,11 +20,13 @@ jobs:
       - name: Verify Java version
         run: java -version  # Verify that Java 22.0.2 is installed
 
-      # Step 2: Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
+#      # Step 2: Set up Node.js
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: '20.x'
+      - name: Verify npm version
+        run: npm -v  # Verify that Java 22.0.2 is installed
 
       # Step 3: Install dependencies and run Playwright tests
       - name: Install dependencies
