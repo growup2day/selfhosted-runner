@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        shell: pwsh  # Set PowerShell as the default shell for all steps
+        shell: powershell  # Set PowerShell as the default shell for all steps
 
     steps:
       - name: Checkout repository
